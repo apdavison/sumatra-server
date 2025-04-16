@@ -21,6 +21,7 @@ from django.views.generic import View
 from django.db.models import ForeignKey
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 from sumatra.recordstore.django_store.models import Project, Record
 from .serializers import (
@@ -172,7 +173,7 @@ class RecordResource(ResourceView):
             content, content_type="{}; charset=utf-8".format(media_type), status=200
         )
 
-    @csrf_exempt
+    @method_decorator(csrf_exempt)
     @check_permissions
     def put(self, request, *args, **kwargs):
         # this performs update if the record already exists, and create otherwise
@@ -259,7 +260,7 @@ class ProjectResource(ResourceView):
             content, content_type="{}; charset=utf-8".format(media_type), status=200
         )
 
-    @csrf_exempt
+    @method_decorator(csrf_exempt)
     def put(self, request, *args, **kwargs):
         auth = AuthenticationDispatcher()
         authenticated = auth.is_authenticated(request)
@@ -326,7 +327,7 @@ class PermissionListResource(ResourceView):
             content, content_type="{}; charset=utf-8".format(media_type), status=200
         )
 
-    @csrf_exempt  # should not be exempt when requesting text/html
+    @method_decorator(csrf_exempt)  # should not be exempt when requesting text/html
     @check_permissions
     def post(self, request, *args, **kwargs):
         try:
