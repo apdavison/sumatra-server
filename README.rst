@@ -9,8 +9,6 @@ the goal of supporting `reproducible research`_.
 In particular, it implements the server-side counterpart to the
 ``HttpRecordStore`` client in Sumatra_.
 
-It is based on the Piston_ framework.
-
 
 Getting started
 ---------------
@@ -27,21 +25,21 @@ settings.py::
     'sumatra.web',
     'sumatra.recordstore.django_store',
     'tagging',
-    
+
 Your ``INSTALLED_APPS`` should also contain ``'django.contrib.auth'`` and
 ``'django.contrib.contenttypes'``.
 
 Now decide where in your URL structure the record store will live and edit your
 urls.py accordingly, e.g.::
 
-    urlpatterns = patterns('',
+    urlpatterns = [
         # other url mappings
-        (r'^records/', include('sumatra_server.urls')),
-    )
+        re_path(r'^records/', include('sumatra_server.urls')),
+    ]
 
 Now update your database by running syncdb::
 
-    $ python manage.py syncdb
+    $ python manage.py migrate
     Creating tables ...
     Creating table sumatra_server_projectpermission
     Creating table django_store_project
@@ -61,7 +59,7 @@ Now update your database by running syncdb::
 If you would like to load some test data to try it out, run::
 
     $ python manage.py loaddata haggling permissions
-    
+
 This will populate the record store with some simulation records, owned by a
 user "testuser" with password "abc123".
 
@@ -78,7 +76,7 @@ the URL.
 
 .. list-table:: *Table showing the operations that can be performed on the record store*.
    :header-rows: 1
-   
+
    * - URL
      - GET
      - POST
@@ -119,36 +117,36 @@ format that must be used to PUT a new record into the store::
     {
         "user": "testuser",
         "project_id": "TestProject",
-        "label": "20100709-154255", 
+        "label": "20100709-154255",
         "reason": "Simulation to test the HttpRecordStore with Sumatra Server",
-        "outcome": "Eureka! Nobel prize here we come.", 
+        "outcome": "Eureka! Nobel prize here we come.",
         "executable": {
-            "path": "/usr/local/bin/python", 
-            "version": "2.5.2", 
-            "name": "Python", 
+            "path": "/usr/local/bin/python",
+            "version": "2.5.2",
+            "name": "Python",
             "options": ""
-        }, 
+        },
         "repository": {
-            "url": "/Users/andrew/tmp/SumatraTest", 
+            "url": "/Users/andrew/tmp/SumatraTest",
             "type": "MercurialRepository"
         },
         "version": "396c2020ca50",
-        "diff": "", 
-        "main_file": "main.py", 
+        "diff": "",
+        "main_file": "main.py",
         "parameters": {
-            "content": "seed = 65785 # seed for random number generator\ndistr = \"uniform\" # statistical distribution to draw values from \nn = 100 # number of values to draw", 
+            "content": "seed = 65785 # seed for random number generator\ndistr = \"uniform\" # statistical distribution to draw values from \nn = 100 # number of values to draw",
             "type": "SimpleParameterSet"
-        }, 
+        },
         "launch_mode": {
-            "type": "SerialLaunchMode", 
+            "type": "SerialLaunchMode",
             "parameters": "{}"
-        }, 
-        "timestamp": "2010-07-09 15:42:55", 
-        "duration": 0.58756184577941895, 
+        },
+        "timestamp": "2010-07-09 15:42:55",
+        "duration": 0.58756184577941895,
         "datastore": {
-            "type": "FileSystemDataStore", 
+            "type": "FileSystemDataStore",
             "parameters": "{'root': '/Users/andrew/tmp/SumatraTest/Data'}"
-        }, 
+        },
         "output_data": [
             {
                 "path": "output.dat",
@@ -162,30 +160,30 @@ format that must be used to PUT a new record into the store::
         "input_data": [],
         "dependencies": [
             {
-                "path": "/Library/Frameworks/Python.framework/Versions/4.0.30002/lib/python2.5/site-packages/matplotlib-0.98.3.0001-py2.5-macosx-10.3-fat.egg/matplotlib", 
-                "version": "0.98.3", 
-                "name": "matplotlib", 
-                "module": "python", 
+                "path": "/Library/Frameworks/Python.framework/Versions/4.0.30002/lib/python2.5/site-packages/matplotlib-0.98.3.0001-py2.5-macosx-10.3-fat.egg/matplotlib",
+                "version": "0.98.3",
+                "name": "matplotlib",
+                "module": "python",
                 "diff": ""
-            }, 
+            },
             {
-                "path": "/Library/Frameworks/Python.framework/Versions/4.0.30002/lib/python2.5/site-packages/numpy-1.1.1.0001-py2.5-macosx-10.3-fat.egg/numpy", 
-                "version": "1.1.1", 
-                "name": "numpy", 
-                "module": "python", 
+                "path": "/Library/Frameworks/Python.framework/Versions/4.0.30002/lib/python2.5/site-packages/numpy-1.1.1.0001-py2.5-macosx-10.3-fat.egg/numpy",
+                "version": "1.1.1",
+                "name": "numpy",
+                "module": "python",
                 "diff": ""
-            }, 
+            },
         ],
         "platforms": [
             {
-                "system_name": "Darwin", 
-                "ip_addr": "127.0.0.1", 
-                "architecture_bits": "32bit", 
-                "machine": "i386", 
-                "architecture_linkage": "", 
-                "version": "Darwin Kernel Version 9.8.0: Wed Jul 15 16:55:01 PDT 2009; root:xnu-1228.15.4~1/RELEASE_I386", 
-                "release": "9.8.0", 
-                "network_name": "localhost", 
+                "system_name": "Darwin",
+                "ip_addr": "127.0.0.1",
+                "architecture_bits": "32bit",
+                "machine": "i386",
+                "architecture_linkage": "",
+                "version": "Darwin Kernel Version 9.8.0: Wed Jul 15 16:55:01 PDT 2009; root:xnu-1228.15.4~1/RELEASE_I386",
+                "release": "9.8.0",
+                "network_name": "localhost",
                 "processor": "i386"
             }
         ],
@@ -206,7 +204,6 @@ database of your Django project.
 .. _Django: http://www.djangoproject.com
 .. _Sumatra: http://neuralensemble.org/sumatra
 .. _`reproducible research`: http://reproducibleresearch.net/
-.. _Piston: https://bitbucket.org/jespern/django-piston/
-.. _`example project here`: https://bitbucket.org/apdavison/sumatra_server_example
-.. _`django-tagging`: http://code.google.com/p/django-tagging/
+.. _`example project here`: https://github.com/apdavison/sumatra-server-example
+.. _`django-tagging`: https://github.com/jazzband/django-tagging
 .. _`RESTful`: http://en.wikipedia.org/wiki/Representational_State_Transfer

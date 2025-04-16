@@ -1,2 +1,2 @@
-sumatra>0.6
-django-registration-redux==1.2
+setuptools
+sumatra>0.7.4

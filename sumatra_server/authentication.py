@@ -10,11 +10,11 @@ Based on http://yml-blog.blogspot.com/2009/10/django-piston-authentication-again
 
 import binascii
 import base64
+from urllib.parse import quote as urlquote
 from django.conf import settings
 from django.http import HttpResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import AnonymousUser
-from django.utils.http import urlquote
 from django.http import HttpResponseRedirect
 
 

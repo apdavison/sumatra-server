@@ -1,9 +1,9 @@
 import os
-from distutils.core import setup
+from setuptools import setup
 
 setup(
     name="sumatra-server",
-    version="0.3.0",
+    version="0.4.0.dev",
     url="https://github.com/open-research/sumatra-server",
     download_url="https://pypi.org/project/sumatra-server/",
     license="BSD 2-clause",

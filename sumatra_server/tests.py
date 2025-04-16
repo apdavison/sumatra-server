@@ -49,7 +49,7 @@ class ProjectListHandlerTest(BaseTestCase):
     def test_GET_authenticated(self):
         prj_list_uri = reverse("sumatra-project-list")
         response = self.client.get(prj_list_uri, {}, **self.extra)
-        self.failUnlessEqual(response.status_code, OK)
+        self.assertEqual(response.status_code, OK)
         self.assertMimeType(response, "application/vnd.sumatra.project-list-v4+json")
         data = json.loads(response.content)
         assert isinstance(data, list)
@@ -66,7 +66,7 @@ class ProjectListHandlerTest(BaseTestCase):
     def test_GET_anonymous(self):
         prj_list_uri = reverse("sumatra-project-list")
         response = self.client.get(prj_list_uri, {})
-        self.failUnlessEqual(response.status_code, OK)
+        self.assertEqual(response.status_code, OK)
         self.assertMimeType(response, "application/vnd.sumatra.project-list-v4+json")
         data = json.loads(response.content)
 
@@ -77,7 +77,7 @@ class ProjectListHandlerTest(BaseTestCase):
         self.client.login(username="testuser", password="abc123")
         prj_list_uri = reverse("sumatra-project-list")
         response = self.client.get(prj_list_uri, {"format": "html"})
-        self.failUnlessEqual(response.status_code, OK)
+        self.assertEqual(response.status_code, OK)
         self.assertMimeType(response, "text/html")
 
 
@@ -197,7 +197,7 @@ class RecordHandlerTest(BaseTestCase):
         label = "haggling"
         rec_uri = reverse("sumatra-record", kwargs={"project": "TestProject", "label": label})
         response = self.client.get(rec_uri, {"format": "html"}, **self.extra)
-        self.failUnlessEqual(response.status_code, OK)
+        self.assertEqual(response.status_code, OK)
         self.assertMimeType(response, "text/html")
 
     def test_GET_not_authenticated(self):
@@ -210,7 +210,7 @@ class RecordHandlerTest(BaseTestCase):
         label = "iquegfxnqiuehfiomehxgo"
         rec_uri = reverse("sumatra-record", kwargs={"project": "TestProject", "label": label})
         response = self.client.get(rec_uri, {}, **self.extra)
-        self.failUnlessEqual(response.status_code, NOT_FOUND)
+        self.assertEqual(response.status_code, NOT_FOUND)
 
     def test_GET_Accept_html(self):
         self.extra = {}  # use Django auth, not HTTP Basic
@@ -218,7 +218,7 @@ class RecordHandlerTest(BaseTestCase):
         label = "haggling"
         rec_uri = reverse("sumatra-record", kwargs={"project": "TestProject", "label": label})
         response = self.client.get(rec_uri, {}, Accept="text/html", **self.extra)
-        self.failUnlessEqual(response.status_code, OK)
+        self.assertEqual(response.status_code, OK)
         self.assertMimeType(response, "text/html")
 
     def test_PUT_new_record_json(self):
@@ -267,7 +267,7 @@ class RecordHandlerTest(BaseTestCase):
                     "metadata": {},
                 }
             ],
-            "timestamp": "2010-07-11 22:50:00",
+            "timestamp": "2010-07-11 22:50:00+0000",
             "tags": ["abcd", "efgh", "ijklm", "tag with spaces"],
             "diff": "+++---",
             "user": "gnugynygy",
